@@ -1,7 +1,0 @@
--I/home/victor/libs/PCL/PCL-install/pcl_android/apps/android/android_dependencies/android-cmake/common-libs/eigen/eigen-android
--I/home/victor/libs/PCL/PCL-src/Android/apps/android/android_dependencies/android-cmake/common-libs/eigen/eigen-android/build
--I/usr/include/qt4
--DNDEBUG
--o
-/home/victor/libs/PCL/PCL-src/Android/apps/android/android_dependencies/android-cmake/common-libs/eigen/eigen-android/build/demos/mandelbrot/mandelbrot.moc
-/home/victor/libs/PCL/PCL-install/pcl_android/apps/android/android_dependencies/android-cmake/common-libs/eigen/eigen-android/demos/mandelbrot/mandelbrot.h
