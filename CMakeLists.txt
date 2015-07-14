@@ -1,6 +1,5 @@
 ### ---[ PCL global CMake
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-
 if(POLICY CMP0048)
   cmake_policy(SET CMP0048 OLD) # do not use VERSION option in project() command
 endif()
@@ -166,6 +165,7 @@ endif()
 
 include("${PCL_SOURCE_DIR}/cmake/pcl_utils.cmake")
 set(PCL_VERSION 1.8.0 CACHE STRING "PCL version")
+
 DISSECT_VERSION()
 GET_OS_INFO()
 SET_INSTALL_DIRS()
@@ -416,10 +416,12 @@ if(WITH_PCAP)
 endif(WITH_PCAP)
 
 # OpenGL and GLUT
-option(WITH_OPENGL "Support for OpenGL" TRUE)
-if(WITH_OPENGL)
-  include("${PCL_SOURCE_DIR}/cmake/pcl_find_gl.cmake")
-endif(WITH_OPENGL)
+if(NOT ANDROID)
+	option(WITH_OPENGL "Support for OpenGL" TRUE)
+	if(WITH_OPENGL)
+	  include("${PCL_SOURCE_DIR}/cmake/pcl_find_gl.cmake")
+	endif(WITH_OPENGL)
+endif(NOT ANDROID)
 
 ### ---[ Create the config.h file
 set(pcl_config_h_in "${CMAKE_CURRENT_SOURCE_DIR}/pcl_config.h.in")
@@ -468,4 +470,5 @@ MAKE_DEP_GRAPH()
 ### ---[ Finish up
 PCL_WRITE_STATUS_REPORT()
 PCL_RESET_MAPS()
+
 
