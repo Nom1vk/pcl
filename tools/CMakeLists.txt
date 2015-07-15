@@ -178,33 +178,71 @@ if (BUILD_tools)
   
       PCL_ADD_EXECUTABLE(pcl_png2pcd "${SUBSYS_NAME}" png2pcd.cpp)
       target_link_libraries(pcl_png2pcd pcl_common pcl_io)
-
+	  #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_png2pcd log)
+	  endif(ANDROID)
+	  
       PCL_ADD_EXECUTABLE(pcl_pcd2png "${SUBSYS_NAME}" pcd2png.cpp)
       target_link_libraries(pcl_pcd2png pcl_common pcl_io)
-
+	  #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_pcd2png log)
+	  endif(ANDROID)
+	  
       PCL_ADD_EXECUTABLE (pcl_organized_pcd_to_png "${SUBSYS_NAME}" organized_pcd_to_png.cpp)
       target_link_libraries (pcl_organized_pcd_to_png pcl_common pcl_io)
+      #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_organized_pcd_to_png log)
+	  endif(ANDROID)
 
+	  if(NOT ANDROID)
       PCL_ADD_EXECUTABLE(pcl_tiff2pcd "${SUBSYS_NAME}" tiff2pcd.cpp)
       target_link_libraries(pcl_tiff2pcd pcl_common pcl_io)
+      endif(NOT ANDROID)
           
       PCL_ADD_EXECUTABLE(pcl_ply2vtk "${SUBSYS_NAME}" ply2vtk.cpp)
       target_link_libraries(pcl_ply2vtk pcl_common pcl_io)
+      #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_ply2vtk log)
+	  endif(ANDROID)
 
       PCL_ADD_EXECUTABLE(pcl_vtk2ply "${SUBSYS_NAME}" vtk2ply.cpp)
       target_link_libraries(pcl_vtk2ply pcl_common pcl_io)
+      #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_vtk2ply log)
+	  endif(ANDROID)
 
       PCL_ADD_EXECUTABLE(pcl_vtk2obj "${SUBSYS_NAME}" vtk2obj.cpp)
       target_link_libraries(pcl_vtk2obj pcl_common pcl_io)
+      #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_vtk2obj log)
+	  endif(ANDROID)
 
       PCL_ADD_EXECUTABLE(pcl_obj2vtk "${SUBSYS_NAME}" obj2vtk.cpp)
       target_link_libraries(pcl_obj2vtk pcl_common pcl_io)
-
+	  #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_obj2vtk log)
+	  endif(ANDROID)
+	  
       PCL_ADD_EXECUTABLE(pcl_obj2pcd "${SUBSYS_NAME}" obj2pcd.cpp)
       target_link_libraries(pcl_obj2pcd pcl_common pcl_io)
+      #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_obj2pcd log)
+	  endif(ANDROID)
 
       PCL_ADD_EXECUTABLE(pcl_vtk2pcd "${SUBSYS_NAME}" vtk2pcd.cpp)
       target_link_libraries(pcl_vtk2pcd pcl_common pcl_io)
+      #ANDROID
+      if(ANDROID)
+		target_link_libraries(pcl_vtk2pcd log)
+	  endif(ANDROID)
 
       if(BUILD_visualization)
 
