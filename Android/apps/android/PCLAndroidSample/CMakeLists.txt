@@ -7,13 +7,18 @@ project(HelloPCLWorld)
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic" )
 
 
-find_package(Boost 1.45.0 REQUIRED COMPONENTS date_time system filesystem thread iostreams)
-include_directories(${Boost_INCLUDE_DIRS})
-find_package(PCL 1.3 REQUIRED COMPONENTS common io octree kdtree)
+#find_package(Boost 1.55 REQUIRED COMPONENTS date_time system filesystem thread iostreams)
+#include_directories(${Boost_INCLUDE_DIRS})
+find_package(PCL REQUIRED COMPONENTS common io octree kdtree)
 include_directories(${PCL_INCLUDE_DIRS})  
 
-#IMPORTANT
-link_directories (/Users/alex/Work/Android/android-ndk-r6b/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/user/lib/)
+set(NDK_HOME CACHE PATH "Home of NDK")
+
+if($ENV{NDKROOT})
+  set(NDK_HOME $ENV{NDKROOT})
+endif()
+
+link_directories ("${NDK_HOME}/toolchains/${TOOLCHAIN_NAME}/prebuild/linux-x86_64/user/lib")
 
 #test for ANDROID and look for stuff not relevant to android.
 if(NOT ANDROID)
@@ -33,8 +38,9 @@ set( LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib/pc CACHE PATH
 #java
 
 add_library(helloPCLWorld SHARED jni/hello-pcl.cpp)
-target_link_libraries(helloPCLWorld ${BOOST_LIBRARIES}
-/Users/alex/Work/Android/android-ndk-r6b/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/user/lib/libboost_filesystem.a
+target_link_libraries(helloPCLWorld 
+${BOOST_LIBRARIES}
+android
 log
 pcl_kdtree
 pcl_io
