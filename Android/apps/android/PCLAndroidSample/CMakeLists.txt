@@ -6,9 +6,17 @@ project(HelloPCLWorld)
 #this is necessary to pick up android flags
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic" )
 
-
-#find_package(Boost 1.55 REQUIRED COMPONENTS date_time system filesystem thread iostreams)
-#include_directories(${Boost_INCLUDE_DIRS})
+if(WIN32 OR ANDROID)
+    set(Boost_USE_STATIC_LIBS ON)
+    set(Boost_USE_STATIC ON)
+    set(Boost_USE_MULTITHREADED ON)
+    if(ANDROID)
+	  set(Boost_COMPILER "-gcc")
+	  set(Boost_DEBUG ON)
+	endif(ANDROID)
+endif(WIN32 OR ANDROID)
+find_package(Boost 1.55.0 COMPONENTS date_time system filesystem thread iostreams)
+include_directories(${Boost_INCLUDE_DIRS})
 find_package(PCL REQUIRED COMPONENTS common io octree kdtree)
 include_directories(${PCL_INCLUDE_DIRS})  
 
@@ -18,7 +26,7 @@ if($ENV{NDKROOT})
   set(NDK_HOME $ENV{NDKROOT})
 endif()
 
-link_directories ("${NDK_HOME}/toolchains/${TOOLCHAIN_NAME}/prebuild/linux-x86_64/user/lib")
+link_directories ("${NDK_HOME}/toolchains/${ANDROID_TOOLCHAIN_NAME}/prebuild/linux-x86_64/user/lib")
 
 #test for ANDROID and look for stuff not relevant to android.
 if(NOT ANDROID)
