@@ -8,9 +8,11 @@ if(POLICY CMP0054)
 endif()
 project(HelloPCLWorld)
 
+find_package(OpenMP)
 #notice the "recycling" of CMAKE_C_FLAGS
 #this is necessary to pick up android flags
-set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic" )
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic ${OpenMP_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 
 if(WIN32 OR ANDROID)
     set(Boost_USE_STATIC_LIBS ON)
@@ -18,7 +20,7 @@ if(WIN32 OR ANDROID)
     set(Boost_NO_BOOST_CMAKE ON)
     if(ANDROID)
 	  set(Boost_COMPILER "-gcc")
-	  set(Boost_DEBUG ON)
+	  set(Boost_DEBUG OFF)
 	endif(ANDROID)
 endif(WIN32 OR ANDROID)
 message(${CMAKE_FIND_ROOT_PATH})
@@ -28,7 +30,7 @@ find_package(Boost 1.47.0 REQUIRED COMPONENTS system date_time)
 include_directories(${Boost_INCLUDE_DIRS})
 find_package(PCL REQUIRED COMPONENTS common io octree kdtree)
 include_directories(${PCL_INCLUDE_DIRS})  
-
+link_directories(${Boost_LIBRARY_DIRS})
 set(NDK_HOME CACHE PATH "Home of NDK")
 
 if($ENV{NDKROOT})
@@ -49,8 +51,7 @@ endif()
 set( LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/lib/pc CACHE PATH
         "Single Directory for all Libraries")
 
-
-
+include_directories(${EIGEN_INCLUDE_DIRS})
 #make sure to used shared in in the jni library, as this will be loaded by
 #java
 message(${PCL_LIBRARIES})
@@ -59,6 +60,8 @@ target_link_libraries(helloPCLWorld
 ${BOOST_LIBRARIES}
 android
 log
-${PCL_LIBRARIES})
+${PCL_LIBRARIES}
+${FLANN_LIBRARY}
+)
 
 
