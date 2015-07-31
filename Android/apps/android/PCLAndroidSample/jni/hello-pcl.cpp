@@ -22,8 +22,15 @@ using namespace boost::filesystem;
  *   apps/samples/hello-jni/project/src/com/example/HelloJni/HelloJni.java
  */
 JNIEXPORT jstring JNICALL Java_org_pointclouds_PCLAndroidSample_HelloPCL_boostMkDir
-(JNIEnv * env, jobject)
+(JNIEnv * env, jobject, jstring path)
 {
+	//convert jstring dir to std::string
+	const char* temp = env->GetStringUTFChars(path,NULL);
+	std::string stringDir(temp);
+	std::string logmsg="Will Write in Path: " + stringDir;
+	LOGI(logmsg.c_str());
+	std::string filePath = stringDir;
+	
 	std::string hello( "hello world!" );
 	
 	sregex rex = sregex::compile( "(\\w+) (\\w+)!" );
@@ -67,17 +74,34 @@ JNIEXPORT jstring JNICALL Java_org_pointclouds_PCLAndroidSample_HelloPCL_boostMk
 	
 	LOGI ("Doing stuff with PCL on Android");
 	
-	
-  pcl::io::savePCDFileASCII ("/mnt/sdcard/KiwiViewer/output.pcd", *cloud);
-	
-	
-	std::ofstream file ("/mnt/sdcard/KiwiViewer/caca.caca");
-	file << "caca caca caca\n";
-	file.close ();
-	
-	printf ("Doing stuff with PCL on Android; cloud size: %d %d\n", cloud->width, cloud->height);
-	
-	
+	std::ofstream file(filePath.c_str(), std::ios::out);
+	file.clear();
+	if(file.fail())
+	{
+		LOGI("std::ofstream failed");
+	} 
+	else 
+	{
+		file << "caca caca caca\n";
+		file.close ();
+	}
+	try
+	{
+		pcl::io::savePCDFileASCII(filePath, *cloud);
+	}
+	catch(std::exception e)
+	{
+		jclass c = env->FindClass("java/lang/RuntimeException");
+
+		if (NULL == c)
+		{
+			//B plan: null pointer ...
+			c = env->FindClass("java/lang/NullPointerException");
+		}
+		LOGI(e.what());
+		env->ThrowNew(c, e.what());
+	}
+	printf("Doing stuff with PCL on Android; cloud size: %d %d\n", cloud->width, cloud->height);
 	
 	return env->NewStringUTF("caca masii de pe noul PCL Android care merge bine");
 }

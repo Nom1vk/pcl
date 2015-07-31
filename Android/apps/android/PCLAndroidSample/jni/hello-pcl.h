@@ -19,7 +19,7 @@ extern "C" {
 	 * Signature: ()Ljava/lang/String;
 	 */
 	JNIEXPORT jstring JNICALL Java_org_pointclouds_PCLAndroidSample_HelloPCL_boostMkDir
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jstring);
 
 	/*
 	 * Class:     org_pointclouds_PCLAndroidSample_HelloPCL

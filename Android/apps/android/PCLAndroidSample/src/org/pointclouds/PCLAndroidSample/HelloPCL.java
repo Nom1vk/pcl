@@ -4,7 +4,9 @@ package org.pointclouds.PCLAndroidSample;
 import android.app.Activity;
 import android.widget.TextView;
 import android.os.Bundle;
-
+import android.os.Environment;
+import java.io.File;
+import java.lang.Exception;
  
 public class HelloPCL extends Activity {
 	
@@ -23,13 +25,20 @@ public class HelloPCL extends Activity {
 		System.loadLibrary("helloPCLWorld");
 	
 		int z = 26;
-		tv.setText( "The sum of " + x + " and " + y + " is " + z + " and boost: " + new HelloPCL().boostMkDir());
-		
+		File path = Environment.getExternalStorageDirectory();
+		File Fname = new File(path, "cloud2.pcd");
+		try {
+			tv.setText( "The sum of " + x + " and " + y + " is " + z + " and boost: " + new HelloPCL().boostMkDir(Fname.toString()));
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.toString());
+		}
 		System.out.println();
 
 		setContentView(tv);
 	}	
 	
-	public native String boostMkDir ();
+	public native String boostMkDir (String dir);
 	public native String smoothPointCloud ();
  }
